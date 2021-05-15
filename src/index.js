@@ -22,17 +22,23 @@ io.on('connection', (socket) => {
 
     socket.broadcast.emit('message', 'A new user has joined')
 
-    socket.on('sendMessage', (msg) => {
+    socket.on('sendMessage', (msg, callback) => {
         const regex = /<\/?[a-z][a-z0-9]*[^<>]*>|<!--.*?-->/img
         const message = msg.replace(regex, "")
 
-        if (message) {
-            io.emit('message', message)
-        }
+        if (!message) return callback('Hum, naughty naughty')
+
+        io.emit('message', message)
+        callback()
     })
 
-    socket.on('sendLocation', (coords) => {
+    socket.on('sendLocation', (coords, callbak) => {
+        if (!coords || !coords.lat || !coords.lon) {
+            return callbak('Something went wrong with your coordinates')
+        }
+
         io.emit('message', `https://www.google.com/maps?q=${coords.lat},${coords.lon}`)
+        callbak()
     })
 
     socket.on('disconnect', () => {

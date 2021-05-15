@@ -21,7 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return
         }
 
-        socket.emit('sendMessage', message)
+        socket.emit('sendMessage', message, (error) => {
+            if (error) return console.log(error)
+
+            console.log('Message delivered')
+        })
 
         $input.value = ''
     })
@@ -36,6 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.emit('sendLocation', {
                 lat: pos.coords.latitude,
                 lon: pos.coords.longitude
+            }, (error) => {
+                if (error) {
+                    return console.error(error)
+                }
+
+                console.log('Position delivered')
             })
         })
     })

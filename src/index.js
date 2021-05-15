@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 const http = require('http')
 const path = require('path')
 const express = require('express')
@@ -23,7 +24,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('message', 'A new user has joined')
 
     socket.on('sendMessage', (msg, callback) => {
-        const regex = /<|>/g
+        const regex = /\<|\>/g
         const message = msg.replace(regex, "")
 
         if (!message) return callback('Hum, naughty naughty. Injections are bad.')

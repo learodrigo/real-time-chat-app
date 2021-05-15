@@ -1,0 +1,30 @@
+{
+  "name": "real-time-chat-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index",
+    "dev": "nodemon ./src/index",
+    "test": "jest --watch --runInBand --detectOpenHandles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/learodrigo/real-time-chat-app.git"
+  },
+  "keywords": [],
+  "author": "Leandro Rodrigo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/learodrigo/real-time-chat-app/issues"
+  },
+  "homepage": "https://github.com/learodrigo/real-time-chat-app#readme",
+  "dependencies": {
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7"
+  }
+}

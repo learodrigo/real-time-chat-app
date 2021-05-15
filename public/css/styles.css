@@ -1,0 +1,184 @@
+/* General Styles */
+
+* {
+    box-sizing: border-box;
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    line-height: 1.4;
+    color: #333333;
+}
+
+h1 {
+    margin-bottom: 16px;
+}
+
+input {
+    font-size: 14px;
+}
+
+label {
+    color: #777;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+input {
+    border: 1px solid #eeeeee;
+    outline: none;
+    padding: 12px;
+}
+
+button {
+    cursor: pointer;
+    background: #7C5CBF;
+    border: none;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    padding: 12px;
+    transition: background .3s ease;
+}
+
+button:hover {
+    background: #6b47b8;
+}
+
+button:disabled {
+    cursor: default;
+    background: #7c5cbf94;
+}
+
+/* Join Page Styles */
+
+.centered-form {
+    align-items: center;
+    background: #333744;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    width: 100vw;
+}
+
+.centered-form__box {
+    background: #F7F7FA;
+    box-shadow: 0px 0px 17px 1px #1D1F26;
+    padding: 24px;
+    width: 250px;
+}
+
+.centered-form button {
+    width: 100%;
+}
+
+.centered-form input {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+/* Chat Page Layout */
+
+.chat {
+    display: flex;
+}
+
+.chat__sidebar {
+    background: #333744;
+    color: white;
+    height: 100vh;
+    overflow-y: scroll;
+    width: 225px;
+}
+
+/* Chat styles */
+
+.chat__main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    max-height: 100vh;
+}
+
+.chat__messages {
+    flex-grow: 1;
+    overflow-y: scroll;
+    padding: 24px 24px 0 24px;
+}
+
+/* Message Styles */
+
+.message {
+    margin-bottom: 16px;
+}
+
+.message__name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.message__meta {
+    color: #777;
+    font-size: 14px;
+}
+
+.message a {
+    color: #0070CC;
+}
+
+/* Message Composition Styles */
+
+.compose {
+    display: flex;
+    flex-shrink: 0;
+    margin-top: 16px;
+    padding: 24px;
+}
+
+.compose form {
+    display: flex;
+    flex-grow: 1;
+    margin-right: 16px;
+}
+
+.compose input {
+    border: 1px solid #eeeeee;
+    flex-grow: 1;
+    margin: 0 16px 0 0;
+    padding: 12px;
+    width: 100%;
+}
+
+.compose button {
+    font-size: 14px;
+}
+
+/* Chat Sidebar Styles */
+
+.room-title {
+    background: #2c2f3a;
+    font-size: 22px;
+    font-weight: 400;
+    padding: 24px;
+}
+
+.list-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    padding: 12px 24px 0 24px;
+}
+
+.users {
+    font-weight: 300;
+    list-style-type: none;
+    padding: 12px 24px 0 24px;
+}

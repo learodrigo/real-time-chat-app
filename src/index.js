@@ -18,7 +18,9 @@ app.get('', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    socket.emit('message', 'Hello, world! I mean, hello there!')
+    socket.emit('message', 'Welcome!')
+
+    socket.broadcast.emit('message', 'A new user has joined')
 
     socket.on('sendMessage', (msg) => {
         const regex = /<\/?[a-z][a-z0-9]*[^<>]*>|<!--.*?-->/img
@@ -27,6 +29,10 @@ io.on('connection', (socket) => {
         if (message) {
             io.emit('message', message)
         }
+    })
+
+    socket.on('disconnect', () => {
+        io.emit('message', 'A new user has left the room')
     })
 })
 

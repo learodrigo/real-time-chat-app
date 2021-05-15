@@ -23,12 +23,12 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('message', 'A new user has joined')
 
     socket.on('sendMessage', (msg, callback) => {
-        const regex = /<\/?[a-z][a-z0-9]*[^<>]*>|<!--.*?-->/img
+        const regex = /<|>/g
         const message = msg.replace(regex, "")
 
-        if (!message) return callback('Hum, naughty naughty')
+        if (!message) return callback('Hum, naughty naughty. Injections are bad.')
 
-        io.emit('message', message)
+        io.emit('message', message.trim())
         callback()
     })
 

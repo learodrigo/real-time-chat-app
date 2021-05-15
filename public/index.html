@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>shatzapp</title>
+
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>
 </head>
@@ -14,14 +17,30 @@
 
     <form id="messageForm">
         <input
-            name="message"
+            aria-label="Form input for message"
             autocomplete="off"
+            id="message"
+            name="message"
             placeholder="Type here..."
-            required type="text"
+            required
+            type="text"
         >
-        <button>Send message</button>
+
+        <button
+            aria-label="Form submit button"
+            id="submitButton"
+            type="submit"
+        >
+            Send message
+        </button>
     </form>
 
-    <button id="locationButton">Share your location</button>
+    <button
+        aria-label="Share location button"
+        id="locationButton"
+        type="button"
+    >
+        Share your location
+    </button>
 </body>
 </html>

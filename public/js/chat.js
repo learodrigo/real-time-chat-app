@@ -1,39 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io()
 
-    socket.on('message', (message) => {
-        console.log(message)
-    })
-
     const $messageForm = document.querySelector('#messageForm')
-    const $input = $messageForm.querySelector('[name="message"]')
-    $input.value = ''
+    const $inputMessage = $messageForm.querySelector('#message')
+    const $submitButton = $messageForm.querySelector('#submitButton')
+    const $locationButton = document.querySelector('#locationButton')
+
+    $inputMessage.value = ''
+
+    socket.on('message', (message) => console.log(message))
 
     $messageForm.addEventListener('submit', (evt) => {
         evt.preventDefault()
 
-        const regex = /<\/?[a-z][a-z0-9]*[^<>]*>|<!--.*?-->/img
-        const message = $input.value.replace(regex, "")
+        $submitButton.setAttribute('disabled', 'disabled')
 
-        if (!message) {
-            $input.value = ''
-            $input.focus()
-            return
-        }
+        const message = evt.target.elements.message.value.trim()
 
         socket.emit('sendMessage', message, (error) => {
+            $submitButton.removeAttribute('disabled')
+            $inputMessage.value = ''
+            $inputMessage.focus()
+
             if (error) return console.log(error)
 
             console.log('Message delivered')
         })
-
-        $input.value = ''
     })
 
-    const $locationButton = document.querySelector('#locationButton')
     $locationButton.addEventListener('click', () => {
+        $locationButton.setAttribute('disabled', 'disabled')
+
         if (!navigator.geolocation) {
-            return alert('Looks like you are using an old browser which does not support this feature. Sorry :(')
+            return alert('Your browser does not support geolocation')
         }
 
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -41,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 lat: pos.coords.latitude,
                 lon: pos.coords.longitude
             }, (error) => {
-                if (error) {
-                    return console.error(error)
-                }
+                $locationButton.removeAttribute('disabled')
+
+                if (error) return console.error(error)
 
                 console.log('Position delivered')
             })

@@ -25,4 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         $input.value = ''
     })
+
+    const $locationButton = document.querySelector('#locationButton')
+    $locationButton.addEventListener('click', () => {
+        if (!navigator.geolocation) {
+            return alert('Looks like you are using an old browser which does not support this feature. Sorry :(')
+        }
+
+        navigator.geolocation.getCurrentPosition((pos) => {
+            socket.emit('sendLocation', {
+                lat: pos.coords.latitude,
+                lon: pos.coords.longitude
+            })
+        })
+    })
 })

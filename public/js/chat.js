@@ -14,17 +14,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $inputMessage.value = ''
 
-    socket.on('message', (message) => {
-        console.log(message)
+    socket.on('message', ({ message, createdAt }) => {
+        const html = Mustache.render(messageTemplate, {
+            message,
+            createdAt: `${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()} hs`
+        })
 
-        const html = Mustache.render(messageTemplate, { message })
         $messages.insertAdjacentHTML('beforeend', html)
     })
 
-    socket.on('locationMessage', (url) => {
-        console.log(url)
+    socket.on('locationMessage', ({ url, createdAt }) => {
+        const html = Mustache.render(locationTemplate, {
+            url,
+            createdAt: `${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()} hs`
+        })
 
-        const html = Mustache.render(locationTemplate, { url })
         $messages.insertAdjacentHTML('beforeend', html)
     })
 

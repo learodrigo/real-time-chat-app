@@ -5,6 +5,8 @@ const path = require('path')
 const express = require('express')
 const socketio = require('socket.io')
 
+const { generateMessage, generateLocationMessage } = require('./utils/messages')
+
 const PORT = process.env.PORT
 
 const app = express()
@@ -19,9 +21,9 @@ app.get('', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    socket.emit('message', 'Welcome!')
+    socket.emit('message', generateMessage('Welcome!'))
 
-    socket.broadcast.emit('message', 'A new user has joined')
+    socket.broadcast.emit('message', generateMessage('A new user has joined'))
 
     socket.on('sendMessage', (msg, callback) => {
         const regex = /\<|\>/g
@@ -29,7 +31,7 @@ io.on('connection', (socket) => {
 
         if (!message) return callback('Hum, naughty naughty. Injections are bad.')
 
-        io.emit('message', message.trim())
+        io.emit('message', generateMessage(message.trim()))
         callback()
     })
 
@@ -38,12 +40,12 @@ io.on('connection', (socket) => {
             return callbak('Something went wrong with your coordinates')
         }
 
-        io.emit('locationMessage', `https://www.google.com/maps?q=${coords.lat},${coords.lon}`)
+        io.emit('locationMessage', generateLocationMessage(`https://www.google.com/maps?q=${coords.lat},${coords.lon}`))
         callbak()
     })
 
     socket.on('disconnect', () => {
-        io.emit('message', 'A new user has left the room')
+        io.emit('message', generateMessage('A new user has left the room'))
     })
 })
 

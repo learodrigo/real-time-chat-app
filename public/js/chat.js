@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     const $messageForm = document.querySelector('#messageForm')
-    const $input = document.querySelector('#message')
+    const $input = $messageForm.querySelector('[name="message"]')
     $input.value = ''
 
     $messageForm.addEventListener('submit', (evt) => {

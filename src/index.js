@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
             return callbak('Something went wrong with your coordinates')
         }
 
-        io.emit('message', `https://www.google.com/maps?q=${coords.lat},${coords.lon}`)
+        io.emit('locationMessage', `https://www.google.com/maps?q=${coords.lat},${coords.lon}`)
         callbak()
     })
 

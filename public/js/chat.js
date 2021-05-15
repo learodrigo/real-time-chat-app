@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Templates
     const messageTemplate = document.querySelector('#messageTemplate').innerHTML
+    const locationTemplate = document.querySelector('#locationTemplate').innerHTML
 
     $inputMessage.value = ''
 
@@ -17,6 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(message)
 
         const html = Mustache.render(messageTemplate, { message })
+        $messages.insertAdjacentHTML('beforeend', html)
+    })
+
+    socket.on('locationMessage', (url) => {
+        console.log(url)
+
+        const html = Mustache.render(locationTemplate, { url })
         $messages.insertAdjacentHTML('beforeend', html)
     })
 

@@ -1,14 +1,16 @@
+const formatTime = (time) => `${new Date(time).getHours()}:${new Date(time).getMinutes()} hs`
+
 const generateMessage = (message) => {
     return {
         message,
-        createdAt: new Date().getTime()
+        createdAt: formatTime(new Date().getTime())
     }
 }
 
 const generateLocationMessage = (url) => {
     return {
         url,
-        createdAt: new Date().getTime()
+        createdAt: formatTime(new Date().getTime())
     }
 }
 

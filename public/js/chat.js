@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('message', ({ message, createdAt }) => {
         const html = Mustache.render(messageTemplate, {
             message,
-            createdAt: `${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()} hs`
+            createdAt
         })
 
         $messages.insertAdjacentHTML('beforeend', html)
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('locationMessage', ({ url, createdAt }) => {
         const html = Mustache.render(locationTemplate, {
             url,
-            createdAt: `${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()} hs`
+            createdAt
         })
 
         $messages.insertAdjacentHTML('beforeend', html)

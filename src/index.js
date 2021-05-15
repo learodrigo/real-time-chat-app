@@ -32,16 +32,18 @@ io.on('connection', (socket) => {
         if (!message) return callback('Hum, naughty naughty. Injections are bad.')
 
         io.emit('message', generateMessage(message.trim()))
+
         callback()
     })
 
-    socket.on('sendLocation', (coords, callbak) => {
+    socket.on('sendLocation', (coords, callback) => {
         if (!coords || !coords.lat || !coords.lon) {
-            return callbak('Something went wrong with your coordinates')
+            return callback('Something went wrong with your coordinates')
         }
 
         io.emit('locationMessage', generateLocationMessage(`https://www.google.com/maps?q=${coords.lat},${coords.lon}`))
-        callbak()
+
+        callback()
     })
 
     socket.on('disconnect', () => {

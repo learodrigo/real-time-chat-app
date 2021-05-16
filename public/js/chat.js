@@ -12,26 +12,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageTemplate = document.querySelector('#messageTemplate').innerHTML
     const locationTemplate = document.querySelector('#locationTemplate').innerHTML
 
+    // Options
     $inputMessage.value = ''
+    const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
+
+    // Socket
+    socket.emit('join', { username, room })
 
     socket.on('message', ({ message, createdAt }) => {
-        const html = Mustache.render(messageTemplate, {
-            message,
-            createdAt
-        })
+        const html = Mustache.render(messageTemplate, { message, createdAt })
 
         $messages.insertAdjacentHTML('beforeend', html)
     })
 
     socket.on('locationMessage', ({ url, createdAt }) => {
-        const html = Mustache.render(locationTemplate, {
-            url,
-            createdAt
-        })
+        const html = Mustache.render(locationTemplate, { url, createdAt })
 
         $messages.insertAdjacentHTML('beforeend', html)
     })
 
+    // Events
     $messageForm.addEventListener('submit', (evt) => {
         evt.preventDefault()
 
@@ -45,8 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             $inputMessage.focus()
 
             if (error) return console.log(error)
-
-            console.log('Message delivered')
         })
     })
 
@@ -65,8 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 $locationButton.removeAttribute('disabled')
 
                 if (error) return console.error(error)
-
-                console.log('Position delivered')
             })
         })
     })

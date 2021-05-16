@@ -21,9 +21,14 @@ app.get('', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    socket.emit('message', generateMessage('Welcome!'))
+    socket.on('join', ({ username, room }) => {
+        socket.join(room)
 
-    socket.broadcast.emit('message', generateMessage('A new user has joined'))
+        socket.emit('message', generateMessage(`Welcome, ${username}!`))
+
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has just joined.`))
+
+    })
 
     socket.on('sendMessage', (msg, callback) => {
         const regex = /\<|\>/g

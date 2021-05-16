@@ -48,6 +48,11 @@ io.on('connection', (socket) => {
             username: 'Admin'
         }))
 
+        io.to(user.room).emit('roomData', {
+            room: user.room,
+            users: getUsersInRoom(user.room)
+        })
+
         callback()
     })
 
@@ -89,6 +94,11 @@ io.on('connection', (socket) => {
                 text: `${user.username} has left the room`,
                 username: 'Admin'
             }))
+
+            io.to(user.room).emit('roomData', {
+                room: user.room,
+                users: getUsersInRoom(user.room)
+            })
         }
     })
 })

@@ -2,7 +2,7 @@
 
 * {
     box-sizing: border-box;
-    font-family: monospace;
+    font-family: monospace, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -95,7 +95,7 @@ button:disabled {
     color: white;
     height: 100vh;
     overflow-y: auto;
-    width: 225px;
+    width: 250px;
 }
 
 /* Chat styles */
@@ -163,6 +163,20 @@ button:disabled {
 
 /* Chat Sidebar Styles */
 
+.app-title {
+    cursor: pointer;
+    font-weight: normal;
+    margin: 0;
+    padding: 8px 24px;
+}
+.app-title:hover {
+    text-decoration: line-through;
+}
+.app-title a{
+    color: #fff;
+    text-decoration: none;
+}
+
 .room-title {
     background: #2c2f3a;
     font-size: 22px;
@@ -181,4 +195,8 @@ button:disabled {
     font-weight: 300;
     list-style-type: none;
     padding: 12px 24px 0 24px;
+}
+
+.users > li {
+    margin-bottom: 8px;
 }

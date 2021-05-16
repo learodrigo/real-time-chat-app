@@ -7,10 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const $submitButton = $messageForm.querySelector('#submitButton')
     const $inputMessage = $messageForm.querySelector('#message')
     const $locationButton = document.querySelector('#locationButton')
+    const $sidebar = document.querySelector('#sidebar')
 
     // Templates
-    const messageTemplate = document.querySelector('#messageTemplate').innerHTML
     const locationTemplate = document.querySelector('#locationTemplate').innerHTML
+    const messageTemplate = document.querySelector('#messageTemplate').innerHTML
+    const sidebarTemplate = document.querySelector('#sidebarTemplate').innerHTML
 
     // Options
     $inputMessage.value = ''
@@ -24,6 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    socket.on('locationMessage', (message) => {
+        const html = Mustache.render(locationTemplate, {
+            createdAt: message.createdAt,
+            url: message.url,
+            username: message.username
+        })
+
+        $messages.insertAdjacentHTML('beforeend', html)
+    })
+
     socket.on('message', (message) => {
         const html = Mustache.render(messageTemplate, {
             createdAt: message.createdAt,
@@ -34,14 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
         $messages.insertAdjacentHTML('beforeend', html)
     })
 
-    socket.on('locationMessage', (message) => {
-        const html = Mustache.render(locationTemplate, {
-            createdAt: message.createdAt,
-            url: message.url,
-            username: message.username
+    socket.on('roomData', ({ room, users }) => {
+        const html = Mustache.render(sidebarTemplate, {
+            room,
+            users
         })
 
-        $messages.insertAdjacentHTML('beforeend', html)
+        $sidebar.innerHTML = html
     })
 
     // Events

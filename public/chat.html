@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>shatzapp</title>
+
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chat.js"></script>
+</head>
+<body>
+    <div class="chat">
+        <div class="chat__sidebar">
+            <h1>shatzapp</h1>
+        </div>
+
+        <div class="chat__main">
+            <div id="messages" class="chat__messages"></div>
+
+            <div class="compose">
+                <form id="messageForm">
+                    <input
+                        aria-label="Form input for message"
+                        autocomplete="off"
+                        id="message"
+                        name="message"
+                        placeholder="Type here..."
+                        required
+                        type="text"
+                    >
+
+                    <button
+                        aria-label="Form submit button"
+                        id="submitButton"
+                        type="submit"
+                    >
+                        Send message
+                    </button>
+                </form>
+
+                <button
+                    aria-label="Share location button"
+                    id="locationButton"
+                    type="button"
+                >
+                    Share your location
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script id="messageTemplate" type="text/html">
+        <div class="message">
+            <p>
+                <span class="message__name">Michael</span>
+                <span class="message__meta">{{ createdAt }}</span>
+            </p>
+
+            <p>{{ message }}</p>
+        </div>
+    </script>
+
+    <script id="locationTemplate" type="text/html">
+        <div class="message">
+            <p>
+                <span class="message__name">Michael</span>
+                <span class="message__meta">{{ createdAt }}</span>
+            </p>
+
+            <p>
+                <a href="{{ url }}" target="_blank">
+                    My current location
+                </a>
+            </p>
+        </div>
+    </script>
+</body>
+</html>

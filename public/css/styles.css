@@ -94,7 +94,7 @@ button:disabled {
     background: #333744;
     color: white;
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 225px;
 }
 

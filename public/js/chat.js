@@ -9,6 +9,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const $locationButton = document.querySelector('#locationButton')
     const $sidebar = document.querySelector('#sidebar')
 
+    const autoscroll = () => {
+        const $newMessage = $messages.lastElementChild
+
+        const newMessageStyles = getComputedStyle($newMessage)
+        const newMessageMargin = parseInt(newMessageStyles.marginBottom)
+        const newMessagePadding = parseInt(newMessageStyles.paddingBottom)
+        const newMessageHeight = $newMessage.offsetHeight + newMessageMargin + newMessagePadding
+
+        const visibleHeight = $messages.offsetHeight
+        const containerHeight = $messages.scrollHeight
+
+        const scrollOffset = $messages.scrollTop + visibleHeight
+
+        if (containerHeight - newMessageHeight <= scrollOffset) {
+            $messages.scrollTop = $messages.scrollHeight
+        }
+    }
+
     // Templates
     const locationTemplate = document.querySelector('#locationTemplate').innerHTML
     const messageTemplate = document.querySelector('#messageTemplate').innerHTML
@@ -34,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         $messages.insertAdjacentHTML('beforeend', html)
+        autoscroll()
     })
 
     socket.on('message', (message) => {
@@ -44,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         $messages.insertAdjacentHTML('beforeend', html)
+        autoscroll()
     })
 
     socket.on('roomData', ({ room, users }) => {

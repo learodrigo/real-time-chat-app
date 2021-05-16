@@ -31,6 +31,8 @@ app.get('', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+    console.log('SocketIO connected')
+
     socket.on('join', ({ username, room }, callback) => {
         const { error, user } = addUser({ id: socket.id, room, username })
 

@@ -4,11 +4,15 @@ const addUser = ({ id, room, username }) => {
     username = username.trim()
     room = room.trim()
 
-    if (!username || !room) return new Error('Username and room are required')
+    if (!username || !room) return {
+        error: 'Username and room are required'
+    }
 
     const existingUser = users.find(user => user.room === room && user.username === username)
 
-    if (existingUser) return new Error('That username is already taken')
+    if (existingUser) return {
+        error: 'That username is already taken'
+    }
 
     const user = { id, username, room }
 

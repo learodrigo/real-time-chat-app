@@ -5,7 +5,17 @@ const path = require('path')
 const express = require('express')
 const socketio = require('socket.io')
 
-const { generateMessage, generateLocationMessage } = require('./utils/messages')
+const {
+    generateMessage,
+    generateLocationMessage
+} = require('./utils/messages')
+
+const {
+    addUser,
+    removeUser,
+    getUser,
+    getUsersInRoom
+} = require('./utils/users')
 
 const PORT = process.env.PORT
 
@@ -21,22 +31,27 @@ app.get('', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    socket.on('join', ({ username, room }) => {
-        socket.join(room)
+    socket.on('join', ({ username, room }, callback) => {
+        const { error, user } = addUser({ id: socket.id, room, username })
 
-        socket.emit('message', generateMessage(`Welcome, ${username}!`))
+        if (error) return callback(error)
 
-        socket.broadcast.to(room).emit('message', generateMessage(`${username} has just joined.`))
+        socket.join(user.room)
 
+        socket.emit('message', generateMessage(`Welcome, ${user.username}!`))
+
+        socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has just joined.`))
+
+        callback()
     })
 
     socket.on('sendMessage', (msg, callback) => {
         const regex = /\<|\>/g
-        const message = msg.replace(regex, "")
+        const message = msg.replace(regex, '').trim()
 
         if (!message) return callback('Hum, naughty naughty. Injections are bad.')
 
-        io.emit('message', generateMessage(message.trim()))
+        io.emit('message', generateMessage(message))
 
         callback()
     })
@@ -52,7 +67,11 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
-        io.emit('message', generateMessage('A new user has left the room'))
+        const user = removeUser(socket.id)
+
+        if (user) {
+            io.to(user.room).emit('message', generateMessage(`${user.username} has left the room`))
+        }
     })
 })
 

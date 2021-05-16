@@ -17,7 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 
     // Socket
-    socket.emit('join', { username, room })
+    socket.emit('join', { username, room }, (error) => {
+        if (error) {
+            alert(error)
+            location.href = '/'
+        }
+    })
 
     socket.on('message', ({ message, createdAt }) => {
         const html = Mustache.render(messageTemplate, { message, createdAt })

@@ -24,14 +24,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-    socket.on('message', ({ message, createdAt }) => {
-        const html = Mustache.render(messageTemplate, { message, createdAt })
+    socket.on('message', (message) => {
+        const html = Mustache.render(messageTemplate, {
+            createdAt: message.createdAt,
+            message: message.text,
+            username: message.username
+        })
 
         $messages.insertAdjacentHTML('beforeend', html)
     })
 
-    socket.on('locationMessage', ({ url, createdAt }) => {
-        const html = Mustache.render(locationTemplate, { url, createdAt })
+    socket.on('locationMessage', (message) => {
+        const html = Mustache.render(locationTemplate, {
+            createdAt: message.createdAt,
+            url: message.url,
+            username: message.username
+        })
 
         $messages.insertAdjacentHTML('beforeend', html)
     })

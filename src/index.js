@@ -38,9 +38,15 @@ io.on('connection', (socket) => {
 
         socket.join(user.room)
 
-        socket.emit('message', generateMessage(`Welcome, ${user.username}!`))
+        socket.emit('message', generateMessage({
+            text: `Welcome, ${user.username}!`,
+            username: 'Admin'
+        }))
 
-        socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has just joined.`))
+        socket.broadcast.to(user.room).emit('message', generateMessage({
+            text: `${user.username} has just joined.`,
+            username: 'Admin'
+        }))
 
         callback()
     })
@@ -48,10 +54,14 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', (msg, callback) => {
         const regex = /\<|\>/g
         const message = msg.replace(regex, '').trim()
+        const user = getUser(socket.id)
 
         if (!message) return callback('Hum, naughty naughty. Injections are bad.')
 
-        io.emit('message', generateMessage(message))
+        io.to(user.room).emit('message', generateMessage({
+            text: message,
+            username: user.username
+        }))
 
         callback()
     })
@@ -61,7 +71,12 @@ io.on('connection', (socket) => {
             return callback('Something went wrong with your coordinates')
         }
 
-        io.emit('locationMessage', generateLocationMessage(`https://www.google.com/maps?q=${coords.lat},${coords.lon}`))
+        const user = getUser(socket.id)
+
+        io.to(user.room).emit('locationMessage', generateLocationMessage({
+            url: `https://www.google.com/maps?q=${coords.lat},${coords.lon}`,
+            username: user.username
+        }))
 
         callback()
     })
@@ -70,7 +85,10 @@ io.on('connection', (socket) => {
         const user = removeUser(socket.id)
 
         if (user) {
-            io.to(user.room).emit('message', generateMessage(`${user.username} has left the room`))
+            io.to(user.room).emit('message', generateMessage({
+                text: `${user.username} has left the room`,
+                username: 'Admin'
+            }))
         }
     })
 })
